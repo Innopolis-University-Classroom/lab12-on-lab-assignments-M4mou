@@ -39,13 +39,15 @@ class ServerHandler extends BaseHandler{
 }
 class LoggerFramework{
     Handler fileHandler = new FileHandler(), consoleHandler = new ConsoleHandler(), serverHandler = new ServerHandler();
+    public LoggerFramework(){
+        fileHandler.setNext(consoleHandler);
+        consoleHandler.setNext(serverHandler);
+    }
     public void setWriteToOnlyFiles(boolean b){
         if(b)fileHandler.setNext(null);
         else fileHandler.setNext(consoleHandler);
     }
     public void writeLogs(){
-        fileHandler.setNext(consoleHandler);
-        consoleHandler.setNext(serverHandler);
         fileHandler.handle();
     }
 }
